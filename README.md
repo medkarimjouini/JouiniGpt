@@ -20,10 +20,10 @@ Le frontend appelle cette URL. Si Render attribue une URL différente, modifier 
 ## Fonctionnalités et limites
 - Images PNG, JPEG, WEBP, GIF.
 - Documents PDF, TXT, MD, JSON, DOC/DOCX, RTF, ODT, PPT/PPTX, CSV, XLS/XLSX.
-- Jusqu'à 10 fichiers par requête, 20 Mo par fichier, 40 Mo cumulés dans cette version du serveur. Ces limites protègent la mémoire du service et ne sont pas des limites OpenAI.
+- Jusqu’à 20 fichiers par requête, avec 50 Mo cumulés au maximum. C’est une limite technique de requête imposée par l’API OpenAI (et non un quota quotidien JouiniGPT).
 - Historique court côté navigateur transmis avec la requête, sans base de données de comptes.
 - Recherche Web OpenAI activée par défaut.
-- Limitation anti-abus : 30 requêtes par IP sur 15 minutes. Pas d'authentification utilisateur dans cette première version : ne pas publier largement avant d'ajouter comptes, quotas par compte et protection anti-abus renforcée.
+- Protection anti-abus : plafond technique de 60 requêtes par IP et par minute. Aucun quota quotidien ou mensuel arbitraire n’est ajouté par JouiniGPT. Comme le site est public et sans comptes dans cette version, cette protection est nécessaire pour éviter l’épuisement des crédits API.
 - Les coûts, limites de contexte, disponibilité du modèle et politiques OpenAI s'appliquent. Le plan gratuit Render peut mettre le service en veille.
 
 ## Sécurité
