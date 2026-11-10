@@ -32,7 +32,7 @@ document.getElementById('year').textContent=new Date().getFullYear();
 function addMessage(text,who){const el=document.createElement('div');el.className='msg '+who;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el;}
 function updateFiles(){const n=filesInput.files.length;filecount.textContent=n?n+' fichier(s) sélectionné(s)':'Aucun fichier joint';}
 filesInput.addEventListener('change',updateFiles);
-async function checkServer(){try{const r=await fetch(API_BASE+'/api/health');if(!r.ok)throw Error();statusEl.textContent='● Serveur connecté';}catch{statusEl.textContent='● Serveur à déployer';statusEl.style.color='#f5cf80';}}
+async function checkServer(){try{const r=await fetch(API_BASE+'/api/health');if(!r.ok)throw Error();const health=await r.json();if(health.aiConfigured){statusEl.textContent='● IA connectée';statusEl.style.color='#9ce7bd';}else{statusEl.textContent='● Serveur prêt — clé OpenAI manquante';statusEl.style.color='#f5cf80';}}catch{statusEl.textContent='● Serveur à déployer ou indisponible';statusEl.style.color='#f5cf80';}}
 checkServer();
 form.addEventListener('submit',async e=>{e.preventDefault();const prompt=input.value.trim(),files=Array.from(filesInput.files);if(!prompt&&!files.length)return;
 const display=prompt||'Analyse les fichiers joints.';addMessage(display+(files.length?'\n📎 '+files.map(f=>f.name).join(', '):''),'user');
