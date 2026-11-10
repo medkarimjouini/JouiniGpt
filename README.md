@@ -1,23 +1,32 @@
 # JouiniGPT
 
-JouiniGPT — projet indépendant de Jouini Mohamed Karim.
+Assistant IA multimodal de Jouini Mohamed Karim.
 
-## État actuel
-- Site statique responsive et interface de démonstration.
-- Déploiement GitHub Pages automatisé via GitHub Actions.
-- Le chat est en **mode démonstration** : il ne contacte pas encore un modèle IA.
+## Architecture
+- Frontend statique publié sur GitHub Pages.
+- API Node.js/Express dans `server/`, déployable avec Render via `render.yaml`.
+- OpenAI Responses API pour le texte, les images, les fichiers et la recherche Web.
+- La clé `OPENAI_API_KEY` est une variable secrète du service backend : ne jamais la mettre dans le dépôt ou le navigateur.
 
-## Déploiement
-Le workflow `.github/workflows/pages.yml` valide `index.html` puis publie le site sur GitHub Pages à chaque push sur `main`.
+## Déploiement du backend
+1. Ouvrir Render et choisir **New → Blueprint**.
+2. Connecter le dépôt `medkarimjouini/JouiniGpt` et laisser Render lire `render.yaml`.
+3. Lorsqu'il demande `OPENAI_API_KEY`, saisir la clé créée dans le tableau de bord OpenAI (ne pas la partager dans un chat ou un commit).
+4. Déployer le service `jouinigpt-api`. L'URL attendue est `https://jouinigpt-api.onrender.com`.
+5. Vérifier `/api/health`. Le champ `aiConfigured` doit être `true`.
 
-Dans GitHub, vérifier **Settings → Pages → Build and deployment → Source: GitHub Actions** si Pages n'est pas déjà activé. Puis consulter l'onglet **Actions** pour le résultat du déploiement.
+Le frontend appelle cette URL. Si Render attribue une URL différente, modifier `API_BASE` dans `index.html` pour utiliser l'URL réelle, puis pousser le commit.
 
-Adresse attendue après activation : https://medkarimjouini.github.io/JouiniGpt/
-
-## Activer un vrai moteur IA
-Un backend (par exemple Node.js) doit être déployé séparément. La clé API doit être stockée uniquement dans les variables secrètes de l'hébergeur (par exemple `OPENAI_API_KEY`) et jamais dans `index.html`, le dépôt Git ou l'application Android. Il faut ensuite relier l'interface à une route serveur authentifiée, avec limites de requêtes, validation des entrées et protections anti-abus.
+## Fonctionnalités et limites
+- Images PNG, JPEG, WEBP, GIF.
+- Documents PDF, TXT, MD, JSON, DOC/DOCX, RTF, ODT, PPT/PPTX, CSV, XLS/XLSX.
+- Jusqu'à 10 fichiers par requête, 20 Mo par fichier, 40 Mo cumulés dans cette version du serveur. Ces limites protègent la mémoire du service et ne sont pas des limites OpenAI.
+- Historique court côté navigateur transmis avec la requête, sans base de données de comptes.
+- Recherche Web OpenAI activée par défaut.
+- Limitation anti-abus : 30 requêtes par IP sur 15 minutes. Pas d'authentification utilisateur dans cette première version : ne pas publier largement avant d'ajouter comptes, quotas par compte et protection anti-abus renforcée.
+- Les coûts, limites de contexte, disponibilité du modèle et politiques OpenAI s'appliquent. Le plan gratuit Render peut mettre le service en veille.
 
 ## Sécurité
-- Ne publiez jamais de mot de passe ni de clé API.
-- Toute clé déjà partagée dans un chat, un dépôt ou une capture doit être considérée compromise et remplacée.
-- Ne pas promettre de confidentialité ou de sécurité complète sans audit et tests dédiés.
+- N'ajoute jamais de clé API, mot de passe ou secret dans GitHub.
+- Toute clé précédemment partagée dans un chat ou un dépôt doit être révoquée et remplacée.
+- `store:false` est demandé à l'API Responses ; cela ne constitue pas une promesse de rétention zéro pour tous les services.
