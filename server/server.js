@@ -25,7 +25,7 @@ const allowed = new Map([
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 50 * 1024 * 1024, files: 20, fields: 5, fieldSize: 15000 }, fileFilter(req,file,cb) { if (allowed.has(file.mimetype)) return cb(null,true); cb(new Error("Format de fichier non pris en charge : " + file.mimetype)); } });
 
 app.get("/api/health", (_req,res) => res.json({ ok:true, service:"JouiniGPT API", aiConfigured:Boolean(process.env.OPENAI_API_KEY) }));
-app.post("/api/chat", upload.array("files",10), async (req,res) => {
+app.post("/api/chat", upload.array("files",20), async (req,res) => {
   try {
     if (!process.env.OPENAI_API_KEY) return res.status(503).json({ error:"La clé API OpenAI n'est pas encore configurée sur le serveur." });
     const message = String(req.body.message || "").trim();
