@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090d18"><meta name="description" content="JouiniGPT — assistant intelligent, projet indépendant de Jouini Mohamed Karim.">
+<title>JouiniGPT — Assistant IA</title>
+<style>
+:root{color-scheme:dark;--bg:#090d18;--panel:#111827;--line:#263247;--muted:#9aa8bd;--text:#eef4ff;--accent:#7c9cff;--accent2:#a78bfa}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% 0%,#1b2850 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+header{height:72px;border-bottom:1px solid #ffffff12;display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100% - 1120px)/2))}
+.brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:.2px}.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#07101f;font-weight:900}
+.pill{font-size:12px;color:#c7d5ef;border:1px solid #34435f;border-radius:99px;padding:5px 10px}
+main{max-width:1000px;margin:0 auto;padding:62px 22px 48px}.hero{text-align:center;margin-bottom:34px}.eyebrow{color:#a9bbff;font-size:13px;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(38px,7vw,64px);line-height:1.05;margin:14px 0;background:linear-gradient(90deg,#fff,#b9c9ff 65%,#c4a8ff);background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:620px;margin:0 auto}
+.chat{max-width:820px;margin:0 auto;background:#101827d9;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 80px #0006}
+.chathead{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.chathead strong{font-size:14px}.status{font-size:12px;color:#f5cf80}.messages{height:340px;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:15px}.msg{max-width:85%;padding:12px 15px;border-radius:16px;font-size:14px;white-space:pre-wrap}.bot{background:#1b2940;border:1px solid #2c3e5c;align-self:flex-start}.user{background:#304a88;align-self:flex-end}.composer{padding:15px;border-top:1px solid var(--line);display:flex;gap:10px}.composer input{flex:1;min-width:0;background:#0b1220;border:1px solid #34435a;border-radius:13px;padding:13px 15px;color:white;font:inherit;outline:none}.composer input:focus{border-color:var(--accent)}button{border:0;border-radius:13px;padding:0 20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#08101f;font-weight:750;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.notice{max-width:820px;margin:15px auto 0;padding:12px 15px;border:1px solid #6a532d;background:#30261366;color:#f5d99d;border-radius:12px;font-size:12px}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:820px;margin:22px auto}.feature{padding:16px;border:1px solid var(--line);border-radius:15px;background:#11182788}.feature b{display:block;font-size:14px;margin-bottom:5px}.feature span{color:var(--muted);font-size:12px}
+footer{text-align:center;color:#77859b;font-size:12px;padding:22px}
+@media(max-width:650px){main{padding-top:42px}.features{grid-template-columns:1fr}.messages{height:360px;padding:16px}.msg{max-width:94%}.pill{display:none}.composer{padding:11px}.composer button{padding:0 15px}}
+</style></head>
+<body>
+<header><div class="brand"><div class="logo">J</div>JouiniGPT</div><span class="pill">Projet indépendant · Version aperçu</span></header>
+<main><section class="hero"><div class="eyebrow">Une nouvelle expérience IA</div><h1>Bonjour, je suis JouiniGPT.</h1><p>Un assistant numérique en construction, imaginé par Jouini Mohamed Karim. Une interface simple, pensée pour évoluer.</p></section>
+<section class="chat" aria-label="Démonstration JouiniGPT"><div class="chathead"><strong>✦ Conversation</strong><span class="status">● Mode démonstration</span></div><div class="messages" id="messages" aria-live="polite"><div class="msg bot">Bienvenue sur JouiniGPT ! 👋\n\nCette version est une démonstration de l'interface. Le moteur IA en ligne sera activé après la configuration sécurisée du serveur et de sa clé API.</div></div><form class="composer" id="form"><input id="prompt" maxlength="1000" placeholder="Écris un message pour tester l'interface…" autocomplete="off" aria-label="Votre message"><button id="send" type="submit">Envoyer</button></form></section>
+<div class="notice">Mode démo : les réponses affichées ne proviennent pas d'un modèle IA. N'entre aucun mot de passe, clé API ou donnée personnelle.</div>
+<section class="features"><div class="feature"><b>✦ Interface rapide</b><span>Adaptée au mobile et à l'ordinateur.</span></div><div class="feature"><b>⌁ Évolutif</b><span>Architecture prête à recevoir un backend IA.</span></div><div class="feature"><b>◇ Sécurité d'abord</b><span>Aucune clé secrète stockée dans le navigateur.</span></div></section></main>
+<footer>© <span id="year"></span> Jouini Mohamed Karim · JouiniGPT</footer>
+<script>
+const form=document.getElementById('form'),input=document.getElementById('prompt'),messages=document.getElementById('messages'),send=document.getElementById('send');
+document.getElementById('year').textContent=new Date().getFullYear();
+form.addEventListener('submit',e=>{e.preventDefault();const value=input.value.trim();if(!value)return;const u=document.createElement('div');u.className='msg user';u.textContent=value;messages.appendChild(u);const b=document.createElement('div');b.className='msg bot';b.textContent="Message reçu dans l'interface de démonstration. Le service de réponse IA n'est pas encore connecté. Pour activer les vraies réponses, il faut déployer le backend et configurer une clé API côté serveur.";messages.appendChild(b);input.value='';messages.scrollTop=messages.scrollHeight;});
+</script></body></html>
